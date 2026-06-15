@@ -6,6 +6,20 @@ Act as a software engineering assistant for a browser-based 3D audio visualizati
 
 Do not treat this as a one-off prototype. Favor a clean structure that can grow as new audio mappings and visualization modes are added.
 
+## Roadmap Approval Requirement
+
+When given a task, first create a complete roadmap before implementing anything.
+
+The roadmap should state:
+
+- what the task is trying to accomplish
+- what files or areas of the project are likely to be affected
+- the planned implementation steps
+- the expected final result
+- any assumptions, risks, or open questions
+
+After presenting the roadmap, wait for explicit approval before making code changes, creating files, running major commands, or implementing the task.
+
 ## Project Goal
 
 The project is an interactive web application that allows a user to upload an audio file and visualize it as an animated 3D surface, grid, or collection of points.

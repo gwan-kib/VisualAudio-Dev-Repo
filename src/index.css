@@ -27,7 +27,8 @@ body {
 }
 
 button,
-input {
+input,
+select {
   font: inherit;
 }
 
@@ -214,6 +215,40 @@ p {
   white-space: nowrap;
 }
 
+.axis-group {
+  gap: 0.55vw;
+}
+
+.axis-picker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35vw;
+  color: #8bd5ff;
+  font-size: 0.78vw;
+  font-weight: 800;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.axis-picker select {
+  width: 9.5vw;
+  border: 1px solid rgba(139, 213, 255, 0.22);
+  border-radius: 0.55vw;
+  padding: 0.65vh 0.45vw;
+  color: #e8f1f8;
+  background: rgba(10, 28, 43, 0.94);
+  font-size: 0.86vw;
+  font-weight: 650;
+  text-transform: none;
+  cursor: pointer;
+}
+
+.axis-picker select:focus-visible {
+  outline: 0;
+  border-color: rgba(139, 213, 255, 0.7);
+  box-shadow: 0 0 0 0.18vw rgba(139, 213, 255, 0.16);
+}
+
 .button-row {
   display: flex;
   flex-wrap: wrap;
@@ -266,6 +301,78 @@ p {
   display: block;
 }
 
+.axis-legend {
+  position: absolute;
+  z-index: 3;
+  top: 13vh;
+  left: 2vw;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65vh;
+  max-width: 20vw;
+  pointer-events: none;
+}
+
+.axis-legend-item {
+  display: inline-flex;
+  width: fit-content;
+  max-width: 100%;
+  padding: 0.45vh 0.65vw;
+  border: 1px solid;
+  border-radius: 0.55vw;
+  background: rgba(6, 17, 29, 0.84);
+  box-shadow: 0 0.8vh 2.4vh rgba(0, 0, 0, 0.28);
+  font-size: 0.82vw;
+  font-weight: 800;
+  line-height: 1.15;
+  overflow-wrap: anywhere;
+}
+
+.axis-legend-item[data-axis="x"] {
+  border-color: #74b9ff;
+  color: #74b9ff;
+}
+
+.axis-legend-item[data-axis="y"] {
+  border-color: #8fffd2;
+  color: #8fffd2;
+}
+
+.axis-legend-item[data-axis="z"] {
+  border-color: #ffcf70;
+  color: #ffcf70;
+}
+
+.axis-scene-label {
+  display: inline-flex;
+  align-items: center;
+  width: max-content;
+  max-width: 18vw;
+  padding: 0.45vh 0.55vw;
+  border: 1px solid;
+  border-radius: 0.55vw;
+  background: rgba(6, 17, 29, 0.84);
+  box-shadow: 0 0.8vh 2.4vh rgba(0, 0, 0, 0.28);
+  font-size: 0.82vw;
+  font-weight: 800;
+  line-height: 1.1;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.axis-tick-label {
+  display: inline-flex;
+  min-width: 1.5vw;
+  justify-content: center;
+  padding: 0.22vh 0.35vw;
+  border-radius: 0.4vw;
+  background: rgba(6, 17, 29, 0.72);
+  font-size: 0.68vw;
+  font-weight: 800;
+  line-height: 1;
+  white-space: nowrap;
+}
+
 @media (max-width: 820px) {
   body {
     overflow-y: auto;
@@ -294,8 +401,46 @@ p {
     font-size: 3.2vw;
   }
 
+  .axis-picker {
+    font-size: 2.6vw;
+  }
+
+  .axis-picker select {
+    width: 29vw;
+    border-radius: 1.5vw;
+    padding: 0.85vh 1.6vw;
+    font-size: 2.8vw;
+  }
+
   .error-text {
     width: 76vw;
+  }
+
+  .axis-legend {
+    top: 10vh;
+    left: 4vw;
+    max-width: 62vw;
+    gap: 0.45vh;
+  }
+
+  .axis-legend-item {
+    padding: 0.55vh 1.4vw;
+    border-radius: 1.4vw;
+    font-size: 2.7vw;
+  }
+
+  .axis-scene-label {
+    max-width: 36vw;
+    padding: 0.55vh 1.4vw;
+    border-radius: 1.4vw;
+    font-size: 2.7vw;
+  }
+
+  .axis-tick-label {
+    min-width: 4.4vw;
+    padding: 0.3vh 0.9vw;
+    border-radius: 1vw;
+    font-size: 2vw;
   }
 }
 
@@ -320,6 +465,14 @@ p {
 
   .track-group {
     display: none;
+  }
+
+  .axis-group {
+    gap: 1.6vw;
+  }
+
+  .axis-picker select {
+    width: 36vw;
   }
 
   .material-symbols-rounded {

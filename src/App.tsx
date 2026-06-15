@@ -2,7 +2,13 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import AudioControlPanel from "./components/AudioControlPanel";
 import AudioVisualizerScene from "./components/AudioVisualizerScene";
 import VisualizationHeader from "./components/VisualizationHeader";
+import { DEFAULT_AXIS_MAPPINGS } from "./audio/mappings/axisMappings";
 import { useAudioAnalyser } from "./hooks/useAudioAnalyser";
+import type {
+  AxisMappingId,
+  AxisMappingSelection,
+  AxisName,
+} from "./types/visualization";
 
 type AudioFileState = {
   name: string;
@@ -14,6 +20,9 @@ function App() {
   const [audioFile, setAudioFile] = useState<AudioFileState | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [axisMappings, setAxisMappings] = useState<AxisMappingSelection>(
+    DEFAULT_AXIS_MAPPINGS,
+  );
   const { analyserConnection, analyserError } = useAudioAnalyser(
     audioRef,
     audioFile?.url ?? null,
@@ -87,10 +96,18 @@ function App() {
     setErrorMessage("");
   }
 
+  function handleAxisMappingChange(axisName: AxisName, mappingId: AxisMappingId) {
+    setAxisMappings((currentMappings) => ({
+      ...currentMappings,
+      [axisName]: mappingId,
+    }));
+  }
+
   return (
     <main className="app-shell">
       <AudioVisualizerScene
         analyserConnection={analyserConnection}
+        axisMappings={axisMappings}
         isPlaying={isPlaying}
       />
       <VisualizationHeader />
@@ -98,7 +115,9 @@ function App() {
         audioFile={audioFile}
         audioRef={audioRef}
         errorMessage={errorMessage || analyserError}
+        axisMappings={axisMappings}
         isPlaying={isPlaying}
+        onAxisMappingChange={handleAxisMappingChange}
         onAudioEnded={() => setIsPlaying(false)}
         onAudioPause={() => setIsPlaying(false)}
         onAudioPlay={() => setIsPlaying(true)}

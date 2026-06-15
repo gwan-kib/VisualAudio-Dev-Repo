@@ -1,4 +1,10 @@
 import type { ChangeEventHandler, RefObject } from "react";
+import { AXIS_MAPPING_DEFINITIONS } from "../audio/mappings/axisMappings";
+import type {
+  AxisMappingId,
+  AxisMappingSelection,
+  AxisName,
+} from "../types/visualization";
 
 type AudioFileState = {
   name: string;
@@ -9,7 +15,9 @@ type AudioControlPanelProps = {
   audioFile: AudioFileState | null;
   audioRef: RefObject<HTMLAudioElement>;
   errorMessage: string;
+  axisMappings: AxisMappingSelection;
   isPlaying: boolean;
+  onAxisMappingChange: (...args: [AxisName, AxisMappingId]) => void;
   onAudioEnded: () => void;
   onAudioPause: () => void;
   onAudioPlay: () => void;
@@ -22,7 +30,9 @@ export default function AudioControlPanel({
   audioFile,
   audioRef,
   errorMessage,
+  axisMappings,
   isPlaying,
+  onAxisMappingChange,
   onAudioEnded,
   onAudioPause,
   onAudioPlay,
@@ -30,6 +40,8 @@ export default function AudioControlPanel({
   onPlayPause,
   onRestart,
 }: AudioControlPanelProps) {
+  const axisNames: AxisName[] = ["x", "y", "z"];
+
   return (
     <section className="control-panel" aria-label="Audio controls">
       <div className="toolbar-group file-group">
@@ -45,6 +57,30 @@ export default function AudioControlPanel({
       <div className="toolbar-group track-group" aria-live="polite">
         <span className="track-label">Current track</span>
         <strong>{audioFile?.name ?? "No file selected"}</strong>
+      </div>
+
+      <div className="toolbar-group axis-group" aria-label="Axis mappings">
+        {axisNames.map((axisName) => (
+          <label className="axis-picker" key={axisName}>
+            <span>{axisName.toUpperCase()}</span>
+            <select
+              aria-label={`${axisName.toUpperCase()} axis mapping`}
+              value={axisMappings[axisName]}
+              onChange={(event) =>
+                onAxisMappingChange(
+                  axisName,
+                  event.target.value as AxisMappingId,
+                )
+              }
+            >
+              {AXIS_MAPPING_DEFINITIONS.map((definition) => (
+                <option key={definition.id} value={definition.id}>
+                  {definition.label}
+                </option>
+              ))}
+            </select>
+          </label>
+        ))}
       </div>
 
       <div className="toolbar-group button-row">
