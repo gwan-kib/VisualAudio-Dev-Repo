@@ -38,12 +38,7 @@ export default function AudioControlPanel({
             upload_file
           </span>
           <span>Upload Audio</span>
-          <input
-            className="visually-hidden"
-            type="file"
-            accept="audio/*"
-            onChange={onFileChange}
-          />
+          <input className="visually-hidden" type="file" accept="audio/*" onChange={onFileChange} />
         </label>
       </div>
 
@@ -53,23 +48,13 @@ export default function AudioControlPanel({
       </div>
 
       <div className="toolbar-group button-row">
-        <button
-          className="command-button"
-          type="button"
-          onClick={onPlayPause}
-          disabled={!audioFile}
-        >
+        <button className="command-button" type="button" onClick={onPlayPause} disabled={!audioFile}>
           <span className="material-symbols-rounded" aria-hidden="true">
             {isPlaying ? "pause" : "play_arrow"}
           </span>
           <span className="command-label">{isPlaying ? "Pause" : "Play"}</span>
         </button>
-        <button
-          className="command-button"
-          type="button"
-          onClick={onRestart}
-          disabled={!audioFile}
-        >
+        <button className="command-button" type="button" onClick={onRestart} disabled={!audioFile}>
           <span className="material-symbols-rounded" aria-hidden="true">
             restart_alt
           </span>
@@ -80,13 +65,7 @@ export default function AudioControlPanel({
       {errorMessage && <p className="error-text">{errorMessage}</p>}
 
       {audioFile && (
-        <audio
-          ref={audioRef}
-          src={audioFile.url}
-          onEnded={onAudioEnded}
-          onPause={onAudioPause}
-          onPlay={onAudioPlay}
-        />
+        <audio ref={audioRef} src={audioFile.url} onEnded={onAudioEnded} onPause={onAudioPause} onPlay={onAudioPlay} />
       )}
     </section>
   );

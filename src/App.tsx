@@ -2,6 +2,7 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import AudioControlPanel from "./components/AudioControlPanel";
 import AudioVisualizerScene from "./components/AudioVisualizerScene";
 import VisualizationHeader from "./components/VisualizationHeader";
+import { useAudioAnalyser } from "./hooks/useAudioAnalyser";
 
 type AudioFileState = {
   name: string;
@@ -13,6 +14,10 @@ function App() {
   const [audioFile, setAudioFile] = useState<AudioFileState | null>(null);
   const [isPlaying, setIsPlaying] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const { analyserConnection, analyserError } = useAudioAnalyser(
+    audioRef,
+    audioFile?.url ?? null,
+  );
 
   useEffect(() => {
     return () => {
@@ -60,6 +65,7 @@ function App() {
 
     if (audioElement.paused) {
       try {
+        await analyserConnection?.resume();
         await audioElement.play();
       } catch {
         setErrorMessage("The browser blocked playback. Try pressing play again.");
@@ -83,12 +89,15 @@ function App() {
 
   return (
     <main className="app-shell">
-      <AudioVisualizerScene />
+      <AudioVisualizerScene
+        analyserConnection={analyserConnection}
+        isPlaying={isPlaying}
+      />
       <VisualizationHeader />
       <AudioControlPanel
         audioFile={audioFile}
         audioRef={audioRef}
-        errorMessage={errorMessage}
+        errorMessage={errorMessage || analyserError}
         isPlaying={isPlaying}
         onAudioEnded={() => setIsPlaying(false)}
         onAudioPause={() => setIsPlaying(false)}
