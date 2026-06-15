@@ -1,26 +1,12 @@
 import { ChangeEvent, useEffect, useRef, useState } from "react";
-import { OrbitControls } from "@react-three/drei";
-import { Canvas } from "@react-three/fiber";
+import AudioControlPanel from "./components/AudioControlPanel";
+import AudioVisualizerScene from "./components/AudioVisualizerScene";
+import VisualizationHeader from "./components/VisualizationHeader";
 
 type AudioFileState = {
   name: string;
   url: string;
 };
-
-function EmptyAudioScene() {
-  return (
-    <>
-      <ambientLight intensity={0.7} />
-      <directionalLight position={[3, 4, 5]} intensity={1.2} />
-      <gridHelper args={[8, 16, "#35556f", "#1b3346"]} />
-      <mesh position={[0, 0.4, 0]}>
-        <boxGeometry args={[1.4, 0.8, 1.4]} />
-        <meshStandardMaterial color="#45a3ff" roughness={0.35} />
-      </mesh>
-      <OrbitControls enableDamping />
-    </>
-  );
-}
 
 function App() {
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -97,54 +83,20 @@ function App() {
 
   return (
     <main className="app-shell">
-      <section className="control-panel" aria-labelledby="app-title">
-        <div className="title-block">
-          <p className="eyebrow">3D audio playground</p>
-          <h1 id="app-title">VisualAudio</h1>
-          <p>
-            Upload an audio file, play it in the browser, and use the 3D scene
-            as the foundation for real-time audio mappings.
-          </p>
-        </div>
-
-        <label className="file-picker">
-          <span>Audio file</span>
-          <input type="file" accept="audio/*" onChange={handleFileChange} />
-        </label>
-
-        <div className="track-card" aria-live="polite">
-          <span className="track-label">Current track</span>
-          <strong>{audioFile?.name ?? "No file selected"}</strong>
-        </div>
-
-        <div className="button-row">
-          <button type="button" onClick={handlePlayPause} disabled={!audioFile}>
-            {isPlaying ? "Pause" : "Play"}
-          </button>
-          <button type="button" onClick={handleRestart} disabled={!audioFile}>
-            Restart
-          </button>
-        </div>
-
-        {errorMessage && <p className="error-text">{errorMessage}</p>}
-
-        {audioFile && (
-          <audio
-            ref={audioRef}
-            src={audioFile.url}
-            onEnded={() => setIsPlaying(false)}
-            onPause={() => setIsPlaying(false)}
-            onPlay={() => setIsPlaying(true)}
-          />
-        )}
-      </section>
-
-      <section className="visualization-panel" aria-label="3D visualization">
-        <Canvas camera={{ position: [4, 3, 5], fov: 50 }}>
-          <color attach="background" args={["#07131f"]} />
-          <EmptyAudioScene />
-        </Canvas>
-      </section>
+      <AudioVisualizerScene />
+      <VisualizationHeader />
+      <AudioControlPanel
+        audioFile={audioFile}
+        audioRef={audioRef}
+        errorMessage={errorMessage}
+        isPlaying={isPlaying}
+        onAudioEnded={() => setIsPlaying(false)}
+        onAudioPause={() => setIsPlaying(false)}
+        onAudioPlay={() => setIsPlaying(true)}
+        onFileChange={handleFileChange}
+        onPlayPause={handlePlayPause}
+        onRestart={handleRestart}
+      />
     </main>
   );
 }
