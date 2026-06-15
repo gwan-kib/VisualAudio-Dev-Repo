@@ -166,6 +166,9 @@ Do not jump directly to advanced effects before the basic audio pipeline and vis
 - Prefer small, focused components and functions.
 - Use descriptive names.
 - Add comments only where the reasoning is not obvious.
+- When writing CSS, prefer `vw` and `vh` over `rem` and `px` for sizing where practical.
+- Use one explicit CSS value instead of `clamp()` unless there is a clear reason responsive bounds are needed.
+- When icons or symbols are needed in the UI, use Google Rounded Icons where practical.
 - Avoid unnecessary abstraction during the early stages.
 - Do not use `any` unless unavoidable, and explain why when it is used.
 - Handle missing files, unsupported audio formats, loading failures, and invalid audio state.

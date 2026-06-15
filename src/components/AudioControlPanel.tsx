@@ -34,8 +34,16 @@ export default function AudioControlPanel({
     <section className="control-panel" aria-label="Audio controls">
       <div className="toolbar-group file-group">
         <label className="file-picker">
-          <span>Audio file</span>
-          <input type="file" accept="audio/*" onChange={onFileChange} />
+          <span className="material-symbols-rounded" aria-hidden="true">
+            upload_file
+          </span>
+          <span>Upload Audio</span>
+          <input
+            className="visually-hidden"
+            type="file"
+            accept="audio/*"
+            onChange={onFileChange}
+          />
         </label>
       </div>
 
@@ -45,11 +53,27 @@ export default function AudioControlPanel({
       </div>
 
       <div className="toolbar-group button-row">
-        <button type="button" onClick={onPlayPause} disabled={!audioFile}>
-          {isPlaying ? "Pause" : "Play"}
+        <button
+          className="command-button"
+          type="button"
+          onClick={onPlayPause}
+          disabled={!audioFile}
+        >
+          <span className="material-symbols-rounded" aria-hidden="true">
+            {isPlaying ? "pause" : "play_arrow"}
+          </span>
+          <span className="command-label">{isPlaying ? "Pause" : "Play"}</span>
         </button>
-        <button type="button" onClick={onRestart} disabled={!audioFile}>
-          Restart
+        <button
+          className="command-button"
+          type="button"
+          onClick={onRestart}
+          disabled={!audioFile}
+        >
+          <span className="material-symbols-rounded" aria-hidden="true">
+            restart_alt
+          </span>
+          <span className="command-label">Restart</span>
         </button>
       </div>
 
